@@ -7,8 +7,8 @@ import { round } from "../../Utils/helpers";
 
 const intialState = {
   resources: {
-    itemOne: 95,
-    refinedItemOne: 25
+    itemOne: 0,
+    refinedItemOne: 0
   },
   buildings: {
     buildingOne: 0
