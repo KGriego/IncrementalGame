@@ -7,19 +7,29 @@ import { Item } from "semantic-ui-react";
 import { ClickerButton } from "../ClickerButton";
 
 export function Resource(props) {
+  const { title, amount, text, disabled, clickButtonFunc, costs } = props;
   return (
     <Item>
       <Item.Content>
         <Item.Header as={"h4"}>
-          {props.title}: {props.amount}
+          {title}: {amount}
         </Item.Header>
         <Item.Description>
-          {props.cost && `Cost: ${props.cost}`}
+          {costs && (
+            <>
+              Cost:{" "}
+              {costs.map(({ type, amount }, idx) => (
+                <li key={`${title}+${idx}`}>
+                  {type} : {amount}
+                </li>
+              ))}
+            </>
+          )}
         </Item.Description>
         <ClickerButton
-          onClickFunc={props.clickButtonFunc}
-          text={props.text}
-          disabled={props.disabled}
+          onClickFunc={clickButtonFunc}
+          text={text}
+          disabled={disabled}
         />
       </Item.Content>
     </Item>
@@ -31,6 +41,6 @@ Resource.propTypes = {
   disabled: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  cost: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  cost: PropTypes.array,
   amount: PropTypes.number.isRequired
 };

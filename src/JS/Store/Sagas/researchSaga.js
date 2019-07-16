@@ -12,7 +12,8 @@ function* researchItemSaga(action) {
     // const state = yield select(state => state);
     yield put({
       type: researchConstants.first_research_success,
-      payload: action.payload
+      payload: action.payload,
+      reducer: "research"
     });
   } catch (e) {
     yield put(notifications.notifyError(`There was an error: Reason: ${e}`));

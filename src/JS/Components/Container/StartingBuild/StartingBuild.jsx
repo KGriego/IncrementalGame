@@ -11,7 +11,7 @@ import * as notify from "../../../Store/Module/Notifications";
 /* Component Imports */
 import { Resource } from "../../Presentational/Resource";
 import { Building } from "../../Presentational/Building";
-import { isDisabled } from "../../../Utils/helpers";
+import { canBuy } from "../../../Utils/helpers";
 
 class StartingBuild extends Component {
   constructor(props) {
@@ -20,74 +20,81 @@ class StartingBuild extends Component {
   }
   addItemOne = () => {
     const { itemOneState, actions, notify } = this.props;
-    const { resources, unlocked, limits } = itemOneState;
-    if (resources.itemOne + 1 > limits.itemOne) {
+    const { resources, buildings } = itemOneState;
+    if (resources.itemOne.amount + 1 > resources.itemOne.limit) {
       notify.notifyWarning("You have reached the limit.");
     } else {
       actions.addItemOne();
-      if (!unlocked.buildingOne && resources.itemOne > 19) {
+      if (!buildings.buildingOne.unlocked && resources.itemOne.amount > 19) {
         actions.unlockBuildingOne();
       }
     }
   };
-  refineItemOne = () => {
+  refineItemOne = resource => {
     const { itemOneState, actions, notify } = this.props;
-    const { resources, costs, limits } = itemOneState;
-    if (costs.resources.refinedItemOne <= resources.itemOne) {
-      actions.refineItemOne();
-    } else if (resources.refinedItemOne > limits.refinedItemOne) {
+    const { resources } = itemOneState;
+
+    if (resources.refinedItemOne.amount > resources.refinedItemOne.limit) {
       notify.notifyWarning("You have reached the limit.");
+    }
+
+    if (canBuy(resources.refinedItemOne, resources)) {
+      actions.refineItemOne(resource);
     } else {
       notify.notifyWarning("You don't have enough to make this resource.");
     }
   };
-  addBuildingOne = () => {
+  addBuildingOne = building => {
     const { itemOneState, actions, notify } = this.props;
     const { resources, costs, buildings } = itemOneState;
-    if (resources.itemOne > costs.buildings.buildingOne) {
-      actions.addBuilding(costs.buildings.buildingOne);
-      if (buildings.buildingOne === 0) {
+
+    //if we have enough resources
+    if (canBuy(buildings.buildingOne, resources)) {
+      //buy the building
+      actions.addBuilding(building);
+      //if this is our first building, start the ticking
+      if (buildings[building].amount === 0) {
         actions.startTicking();
       }
     } else {
+      //we don't thave enough resources to buy the building
       notify.notifyWarning("You don't have enough to buy this building.");
     }
   };
 
   render() {
     const { itemOneState } = this.props;
-    const { resources, costs, buildings, unlocked } = itemOneState;
+
+    const { resources, buildings } = itemOneState;
+
+    const buildingKeys = Object.keys(buildings);
+    const resourceKeys = Object.keys(resources);
     return (
       <Grid centered>
         <Grid.Row>
           <Grid.Column computer={"14"} tablet={"14"} mobile={"13"}>
-            <Resource
-              title={"Item 1"}
-              amount={resources.itemOne}
-              clickButtonFunc={this.addItemOne}
-              disabled={false}
-              text={"Add Item 1"}
-            />
-            <Resource
-              title={"Refine Item 1"}
-              amount={resources.refinedItemOne}
-              clickButtonFunc={this.refineItemOne}
-              disabled={isDisabled(resources.itemOne, resources.refinedItemOne)}
-              cost={`${resources.refinedItemOne} itemOnes`}
-              text={"Refine Item 1"}
-            />
-            {unlocked.buildingOne && (
-              <Building
-                title={"Building 1"}
-                amount={buildings.buildingOne}
-                clickButtonFunc={this.addBuildingOne}
-                cost={costs.buildings.buildingOne}
-                disabled={isDisabled(
-                  resources.itemOne,
-                  costs.buildings.buildingOne
-                )}
-                text={"Add Building 1"}
-              />
+            {resourceKeys.map((key, idx) => {
+              return (
+                resources[key].unlocked && (
+                  <Resource
+                    key={`${key}+${idx}`}
+                    {...resources[key]}
+                    clickButtonFunc={() => this[resources[key].add](key)}
+                    disabled={!canBuy(resources[key], resources)}
+                  />
+                )
+              );
+            })}
+            {buildingKeys.map(
+              (key, idx) =>
+                buildings[key].unlocked && (
+                  <Building
+                    key={`${key}+${idx}`}
+                    {...buildings[key]}
+                    clickButtonFunc={() => this.addBuildingOne(key)}
+                    disabled={!canBuy(buildings[key], resources)}
+                  />
+                )
             )}
           </Grid.Column>
         </Grid.Row>
@@ -101,7 +108,10 @@ const mapDispatchToProps = dispatch => ({
   notify: bindActionCreators(notify, dispatch)
 });
 
-const mapStateToProps = state => ({ itemOneState: state.initialReducer });
+const mapStateToProps = ({ gameData, root }) => ({
+  itemOneState: gameData,
+  root
+});
 
 export default connect(
   mapStateToProps,

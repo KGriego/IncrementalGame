@@ -7,16 +7,20 @@ import { delay } from "../../Utils/helpers";
 
 function* addItemOneSaga() {
   try {
-    yield put({ type: initialConstants.add_item_success });
+    yield put({ type: initialConstants.add_item_success, reducer: "initial" });
   } catch (e) {
     yield put(notifications.notifyError(`There was an error: Reason: ${e}`));
     console.log(e);
   }
 }
 
-function* refineItemOneSaga() {
+function* refineItemOneSaga(action) {
   try {
-    yield put({ type: initialConstants.refine_item_success });
+    yield put({
+      type: initialConstants.refine_item_success,
+      payload: action.payload,
+      reducer: "initial"
+    });
   } catch (e) {
     yield put(notifications.notifyError(`There was an error: Reason: ${e}`));
     console.log(e);
@@ -27,7 +31,8 @@ function* addBuildingOneSaga(action) {
   try {
     yield put({
       type: initialConstants.add_building_success,
-      payload: action.payload
+      payload: action.payload,
+      reducer: "initial"
     });
   } catch (e) {
     yield put(notifications.notifyError(`There was an error: Reason: ${e}`));
@@ -41,7 +46,7 @@ function* startTickingSaga() {
     while (true) {
       try {
         yield delay(1100);
-        yield put({ type: initialConstants.ticking });
+        yield put({ type: initialConstants.ticking, reducer: "initial" });
       } catch (e) {
         yield put(
           notifications.notifyError(`There was an error: Reason: ${e}`)

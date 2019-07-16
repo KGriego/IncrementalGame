@@ -10,7 +10,6 @@ import configureStore from "./JS/Store/createStore";
 import App from "./JS/App";
 
 const store = configureStore();
-
 render(
   <Provider store={store}>
     <App />
