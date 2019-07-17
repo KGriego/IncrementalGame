@@ -1,5 +1,5 @@
 /* Library Imports */
-import React, { Component } from "react";
+import * as React from "react";
 import { render } from "react-dom";
 
 /* Redux Imports */
@@ -10,6 +10,7 @@ import configureStore from "./JS/Store/createStore";
 import App from "./JS/App";
 
 const store = configureStore();
+
 render(
   <Provider store={store}>
     <App />

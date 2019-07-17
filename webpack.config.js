@@ -1,3 +1,7 @@
+// `CheckerPlugin` is optional. Use it if you want async error reporting.
+// We need this plugin to detect a `--watch` mode. It may be removed later
+// after https://github.com/webpack/webpack/issues/3460 will be resolved.
+const { CheckerPlugin } = require("awesome-typescript-loader");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -7,6 +11,7 @@ module.exports = {
   entry: ["babel-polyfill", "./src/index.js"],
   module: {
     rules: [
+      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -43,16 +48,16 @@ module.exports = {
         include: /node_modules/,
         loaders: ["style-loader", "css-loader"]
       },
-      {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: "url-loader?limit=100000"
-      }
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: "url-loader" }
     ]
   },
   resolve: {
-    extensions: [".jsx", ".js", ".scss", ".css"]
+    extensions: [".ts", ".tsx", ".js", ".scss", ".css"]
   },
+  // Source maps support ('inline-source-map' also works)
+  devtool: "source-map",
   plugins: [
+    new CheckerPlugin(),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
