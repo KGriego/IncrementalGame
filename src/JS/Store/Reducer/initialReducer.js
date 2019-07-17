@@ -29,6 +29,10 @@ export function reducer(state, action = {}, root) {
                   3
                 )
               }
+            },
+            stats: {
+              ...state.stats,
+              clicks: state.stats.clicks + 1
             }
           };
         }

@@ -46,7 +46,7 @@ const initialState = {
           text: "Increase Click Multiplier",
           title: "Click Increase 1",
           value: 1,
-          unlocked: false,
+          unlocked: { type: "clicks", amount: 25, value: false },
           bought: false,
           costs: [
             { resource: "refinedItemOne", amount: 12.5 },
@@ -57,18 +57,21 @@ const initialState = {
           type: "click",
           text: "Increase Click Multiplier",
           title: "Click Increase 2",
-          value: 1.5,
-          unlocked: false,
+          value: 2,
+          unlocked: { type: "clicks", amount: 75, value: false },
           bought: false,
           costs: [
-            { resource: "refinedItemOne", amount: 25 },
-            { resource: "itemOne", amount: 100 }
+            { resource: "refinedItemOne", amount: 1 },
+            { resource: "itemOne", amount: 1 }
           ]
         }
       ]
     },
     mouse: {
       clickMultiplier: 1
+    },
+    stats: {
+      clicks: 0
     }
   },
   initialValues: {

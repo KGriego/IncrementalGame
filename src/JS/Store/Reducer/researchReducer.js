@@ -3,6 +3,7 @@ import _ from "lodash";
 
 /* Component Imports */
 import * as researchConstants from "../Constants/researchConstants";
+import { checkingResearch } from "../../Utils/helpers";
 
 export function reducer(state, action = {}, root) {
   const { type, payload } = action;
@@ -15,6 +16,14 @@ export function reducer(state, action = {}, root) {
       researchItem.bought = true;
       state.mouse.clickMultiplier += researchItem.value;
 
+      return { ...state };
+    }
+    case researchConstants.check_research: {
+      const newState = checkingResearch(state);
+
+      return { ...newState };
+    }
+    case researchConstants.unlocked_research_item_success: {
       return { ...state };
     }
     default: {

@@ -11,8 +11,9 @@ export function ResourceList(props) {
     parent: {
       initialState: { initialValues }
     },
-    gameData: { resources, buildings }
+    gameData: { resources, buildings, mouse }
   } = props;
+  console.log(props);
   return (
     <>
       <Header as={"h1"}>Resources:</Header>
@@ -20,7 +21,7 @@ export function ResourceList(props) {
         <Item>
           <Item.Content>
             <Item.Description>
-              Clicking: {initialValues.clicking}
+              Clicking: {initialValues.clicking * mouse.clickMultiplier}
             </Item.Description>
           </Item.Content>
         </Item>

@@ -111,6 +111,10 @@ export const tick = state => {
   return newState;
 };
 
+const checkingResearch = state => {
+  debugger;
+};
+
 // export const increaseCost = itemToIncrease => {
 //   const newItem = _.cloneDeep(itemToIncrease);
 

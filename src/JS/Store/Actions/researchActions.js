@@ -5,3 +5,8 @@ export const researchItem = researchItem => ({
   payload: researchItem,
   reducer: "research"
 });
+
+export const checkResearchItems = () => ({
+  type: researchConstants.check_research,
+  reducer: "research"
+});

@@ -32,7 +32,7 @@ class Research extends Component {
   };
 
   render() {
-    const { itemOneState, research } = this.props;
+    const { research } = this.props;
     const researchItems = Object.keys(research);
     return (
       <Grid centered>
@@ -41,7 +41,8 @@ class Research extends Component {
             {researchItems.map(researchItem =>
               research[researchItem].map((research, idx) => {
                 return (
-                  !research.bought && (
+                  !research.bought &&
+                  research.unlocked.value && (
                     <ResearchItem
                       key={`${research.title}-${idx}`}
                       {...research}
@@ -63,10 +64,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-const mapStateToProps = ({ gameData }) => ({
-  itemOneState: gameData,
-  research: gameData.researches
-});
+const mapStateToProps = ({ gameData }) => ({ research: gameData.researches });
 
 export default connect(
   mapStateToProps,
