@@ -1,3 +1,6 @@
+/* Library Imports */
+import * as _ from "lodash";
+
 /* Component Imports */
 import { reducer as notifications } from "../Module/Notifications";
 import { reducer as gameData } from "./initialReducer";
@@ -12,7 +15,8 @@ const initialState = {
         title: "Item One",
         text: "Add Item One",
         shrtNme: "itemOne",
-        amount: 70,
+        amount: 0,
+        hasCost: false,
         unlocked: true,
         multiplier: 1,
         limit: 100,
@@ -23,6 +27,7 @@ const initialState = {
         text: "Refine Item One",
         shrtNme: "refinedItemOne",
         amount: 0,
+        hasCost: true,
         multiplier: 1,
         limit: 50,
         unlocked: true,
@@ -38,15 +43,17 @@ const initialState = {
         unlocked: false,
         multiplier: 1,
         limit: 50,
+        hasCost: true,
         resources: [{ type: "itemOne", value: 0.1 }],
         costIncreaseMultiplier: 1.35,
         costs: [{ amount: 5, type: "itemOne" }]
       }
     },
     researches: {
-      clicking: [
+      mouse: [
         {
-          type: "click",
+          type: "clickMultiplier",
+          resource: "click",
           text: "Increase Click Multiplier",
           title: "Click Increase 1",
           value: 1,
@@ -55,12 +62,13 @@ const initialState = {
           ],
           bought: false,
           costs: [
-            { resource: "refinedItemOne", amount: 1 },
-            { resource: "itemOne", amount: 1 }
+            { resource: "refinedItemOne", amount: 10 },
+            { resource: "itemOne", amount: 50 }
           ]
         },
         {
-          type: "click",
+          type: "clickMultiplier",
+          resource: "click",
           text: "Increase Click Multiplier",
           title: "Click Increase 2",
           value: 2,
@@ -69,41 +77,43 @@ const initialState = {
           ],
           bought: false,
           costs: [
-            { resource: "refinedItemOne", amount: 1 },
-            { resource: "itemOne", amount: 1 }
+            { resource: "refinedItemOne", amount: 25 },
+            { resource: "itemOne", amount: 100 }
           ]
         }
       ],
       resources: [
         {
-          type: "storage",
+          type: "limit",
+          resource: "itemOne",
           text: "Increase Item One Limit",
           title: "Item One Limit Increase",
           value: 100,
           unlocked: [
-            { category: "stats", name: "clicks", amount: 100, value: false },
-            {
-              category: "resources",
-              name: "itemOne",
-              amount: 100,
-              value: false
-            }
+            { category: "stats", name: "clicks", amount: 300, value: false }
+          ],
+          costs: [
+            { resource: "refinedItemOne", amount: 50 },
+            { resource: "itemOne", amount: 100 }
           ]
         }
       ]
     },
-    mouse: { clickMultiplier: 1 },
-    stats: { clicks: 19 }
+    mouse: { click: { clickMultiplier: 1 } },
+    stats: { clicks: 0 }
   },
   initialValues: { clicking: 1 },
   notifications: { notification: null }
 };
 
-export const rootReducer = (state = initialState, action: Action) => {
-  console.log(state);
+const localSave = localStorage.getItem("save");
+const savedState = localSave ? JSON.parse(atob(localSave)) : initialState;
+
+export const rootReducer = (state: any = savedState, action: Action) => {
+  // console.log(state);
   return {
     notifications: notifications(state.notifications, action),
-    parent: { initialState, gameData: state.gameData },
+    parent: { ...{ ...initialState, gameData: state.gameData } },
     gameData: gameData(state.gameData, action, state)
   };
 };

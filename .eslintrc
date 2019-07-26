@@ -1,20 +1,19 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
-  "ecmaFeatures": { "jsx": true, "modules": true },
+  "extends": ["eslint:recommended"],
   "env": { "browser": true, "node": true, "es6": true },
   "plugins": ["react"],
   "parser": "babel-eslint",
   "rules": {
     "comma-dangle": [2, "always-multiline"],
     "eol-last": 2,
-    "indent": [2, 2, { "SwitchCase": 1 }],
+    "indent": ["error", 2],
     "jsx-quotes": [2, "prefer-double"],
     "no-multiple-empty-lines": 2,
     "no-unused-vars": 2,
     "no-var": 2,
     "no-fallthrough": 2,
     "object-curly-spacing": [2, "always"],
-    "quotes": [2, "single", "avoid-escape"],
+    "quotes": [2, "double", "avoid-escape"],
     "semi": [2, "never"],
     "strict": 0,
     "space-before-blocks": [2, "always"],
@@ -24,96 +23,95 @@
     ],
     "no-console": 2,
     "no-constant-condition": 2,
-    "react/boolean-prop-naming": 2, //Enforces consistent naming for boolean props
-    "react/button-has-type": 2, //Forbid "button" element without an explicit "type" attribute
-    "react/default-props-match-prop-types": 2, // Prevent extraneous defaultProps on components
-    "react/destructuring-assignment": 2, //Rule enforces consistent usage of destructuring assignment in component
-    "react/display-name": 2, //Prevent missing displayName in a React component definition
-    "react/forbid-component-props": 2, // Forbid certain props on Components
-    "react/forbid-dom-props": 2, //Forbid certain props on DOM Nodes
-    "react/forbid-elements": 2, //Forbid certain elements
-    "react/forbid-prop-types": 2, // Forbid certain propTypes
-    "react/forbid-foreign-prop-types": 2, //Forbid foreign propTypes
-    "react/no-access-state-in-setstate": 2, //Prevent using this.state inside this.setState
-    "react/no-array-index-key": 2, // Prevent using Array index in key props
-    "react/no-children-prop": 2, //Prevent passing children as props
-    "react/no-danger": 2, //Prevent usage of dangerous JSX properties
-    "react/no-danger-with-children": 2, //Prevent problem with children and props.dangerouslySetInnerHTML
-    "react/no-deprecated": 2, //Prevent usage of deprecated methods, including component lifecycle methods
-    "react/no-did-mount-set-state": 2, // Prevent usage of setState in componentDidMount
-    "react/no-did-update-set-state": 2, //Prevent usage of setState in componentDidUpdate
-    "react/no-direct-mutation-state": 2, //Prevent direct mutation of this.state
-    "react/no-find-dom-node": 2, //Prevent usage of findDOMNode
-    "react/no-is-mounted": 2, //Prevent usage of isMounted
-    "react/no-multi-comp": 2, //Prevent multiple component definition per file
-    "react/no-redundant-should-component-update": 2, //Prevent usage of shouldComponentUpdate when extending React.PureComponent
-    "react/no-render-return-value": 2, //Prevent usage of the return value of React.render
-    "react/no-set-state": 2, //Prevent usage of setState
-    "react/no-typos": 2, //Prevent common casing typos
-    "react/no-string-refs": 2, //Prevent using string references in ref attribute.
-    "react/no-this-in-sfc": 2, //Prevent using this in stateless functional components
-    "react/no-unescaped-entities": 2, //Prevent invalid characters from appearing in markup
-    "react/no-unknown-property": 2, //Prevent usage of unknown DOM property
-    "react/no-unsafe": 2, //Prevent usage of unsafe lifecycle methods
-    "react/no-unused-prop-types": 2, // Prevent definitions of unused prop types
-    "react/no-unused-state": 2, //Prevent definitions of unused state properties
-    "react/no-will-update-set-state": 2, //Prevent usage of setState in componentWillUpdate
-    "react/prefer-stateless-function": 2, //Enforce stateless React Components to be written as a pure function
-    "react/prefer-es6-class": 2, //Enforce ES5 or ES6 class for React Components
-    "react/prefer-read-only-props": 2, //Enforce that props are read-only
-    "react/prop-types": 2, //Prevent missing props validation in a React component definition
-    "react/react-in-jsx-scope": 2, //Prevent missing React when using JSX
-    "react/require-default-props": 2, //Enforce a defaultProps definition for every prop that is not a required prop
-    "react/require-optimization": 2, //Enforce React components to have a shouldComponentUpdate method
-    "react/require-render-return": 2, //Enforce ES5 or ES6 class for returning value in render function
-    "react/self-closing-comp": 2, //Prevent extra closing tags for components without children
-    "react/sort-comp": 2, //Enforce component methods order fixable
-    "react/sort-prop-types": 2, //Enforce propTypes declarations alphabetical sorting
-    "react/state-in-constructor": 2, //Enforce the state initialization style to be either in a constructor or with a class property
-    "react/static-property-placement": 2, //Enforces where React component static properties should be positioned.
-    "react/style-prop-object": 2, //Enforce style prop value being an object
-    "react/void-dom-elements-no-children": 2, //Prevent void DOM elements e.g. <img />, <br /> from receiving children
-    "react/jsx-boolean-value": 2, //Enforce boolean attributes notation in JSX
-    "react/jsx-child-element-spacing": 2, //Enforce or disallow spaces inside of curly braces in JSX attributes and expressions.
-    "react/jsx-closing-bracket-location": 2, //Validate closing bracket location in JSX
-    "react/jsx-closing-tag-location": 2, //Validate closing tag location in JSX
-    "react/jsx-curly-newline": 2, //Enforce or disallow newlines inside of curly braces in JSX attributes and expressions
-    "react/jsx-curly-spacing": [2, "never"], //Enforce or disallow spaces inside of curly braces in JSX attributes and expressions
-    "react/jsx-equals-spacing": 2, //Enforce or disallow spaces around equal signs in JSX attributes
-    "react/jsx-filename-extension": 2, //Restrict file extensions that may contain JSX
-    "react/jsx-first-prop-new-line": 2, //Enforce position of the first prop in JSX
-    "react/jsx-handler-names": 2, //Enforce event handler naming conventions in JSX
-    "react/jsx-indent": 2, //Validate JSX indentation
-    "react/jsx-indent-props": 2, //Validate props indentation in JSX
-    "react/jsx-key": 2, //Validate JSX has key prop when in array or iterator
-    "react/jsx-max-depth": 2, //Validate JSX maximum depth
-    "react/jsx-max-props-per-line": 2, //Limit maximum of props on a single line in JSX
-    "react/jsx-no-bind": 2, //Prevent usage of .bind and arrow functions in JSX props
-    "react/jsx-no-comment-textnodes": 2, //Prevent comments from being inserted as text nodes
-    "react/jsx-no-duplicate-props": 2, //Prevent duplicate props in JSX
-    "react/jsx-no-literals": 2, //Prevent usage of unwrapped JSX strings
-    "react/jsx-no-undef": 2, //Disallow undeclared variables in JSX
-    "react/jsx-no-target-blank": 2, //Prevent usage of unsafe target='_blank'
-    "react/jsx-one-expression-per-line": 2, //Limit to one expression per line in JSX
-    "react/jsx-curly-brace-presence": 2, //Enforce curly braces or disallow unnecessary curly braces in JSX
-    "react/jsx-fragments": 2, //Enforce shorthand or standard form for React fragments
-    "react/jsx-pascal-case": 2, //Enforce PascalCase for user-defined JSX components
-    "react/jsx-props-no-multi-spaces": 2, //Disallow multiple spaces between inline JSX props
-    "react/jsx-props-no-spreading": 2, //Disallow JSX props spreading
-    "react/jsx-sort-default-props": 2, //Enforce default props alphabetical sorting
-    "react/jsx-sort-props": 2, //Enforce props alphabetical sorting
-    "react/jsx-space-before-closing": 2, //Validate spacing before closing bracket in JSX
-    "react/jsx-tag-spacing": 2, //Validate whitespace in and around the JSX opening and closing brackets
-    "react/jsx-uses-react": 2, //Prevent React to be incorrectly marked as unused
-    "react/jsx-uses-vars": 2, //Prevent variables used in JSX to be incorrectly marked as unused
-    "react/jsx-wrap-multilines": 2 //Prevent missing parentheses around multilines JSX
+    "react/boolean-prop-naming": 2,
+    "react/button-has-type": 2,
+    "react/default-props-match-prop-types": 2,
+    "react/destructuring-assignment": 2,
+    "react/display-name": 2,
+    "react/forbid-component-props": 2,
+    "react/forbid-dom-props": 2,
+    "react/forbid-elements": 2,
+    "react/forbid-prop-types": 2,
+    "react/forbid-foreign-prop-types": 2,
+    "react/no-access-state-in-setstate": 2,
+    "react/no-array-index-key": 2,
+    "react/no-children-prop": 2,
+    "react/no-danger": 2,
+    "react/no-danger-with-children": 2,
+    "react/no-deprecated": 2,
+    "react/no-did-mount-set-state": 2,
+    "react/no-did-update-set-state": 2,
+    "react/no-direct-mutation-state": 2,
+    "react/no-find-dom-node": 2,
+    "react/no-is-mounted": 2,
+    "react/no-multi-comp": 2,
+    "react/no-redundant-should-component-update": 2,
+    "react/no-render-return-value": 2,
+    "react/no-set-state": 2,
+    "react/no-typos": 2,
+    "react/no-string-refs": 2,
+    "react/no-this-in-sfc": 2,
+    "react/no-unescaped-entities": 2,
+    "react/no-unknown-property": 2,
+    "react/no-unsafe": 2,
+    "react/no-unused-prop-types": 2,
+    "react/no-unused-state": 2,
+    "react/no-will-update-set-state": 2,
+    "react/prefer-stateless-function": 2,
+    "react/prefer-es6-class": 2,
+    "react/prefer-read-only-props": 2,
+    "react/prop-types": 2,
+    "react/react-in-jsx-scope": 2,
+    "react/require-default-props": 2,
+    "react/require-optimization": 2,
+    "react/require-render-return": 2,
+    "react/self-closing-comp": 2,
+    "react/sort-comp": 2,
+    "react/sort-prop-types": 2,
+    "react/state-in-constructor": 2,
+    "react/static-property-placement": 2,
+    "react/style-prop-object": 2,
+    "react/void-dom-elements-no-children": 2,
+    "react/jsx-boolean-value": 2,
+    "react/jsx-child-element-spacing": 2,
+    "react/jsx-closing-bracket-location": 2,
+    "react/jsx-closing-tag-location": 2,
+    "react/jsx-curly-newline": 2,
+    "react/jsx-curly-spacing": [2, "never"],
+    "react/jsx-equals-spacing": 2,
+    "react/jsx-filename-extension": 2,
+    "react/jsx-first-prop-new-line": 2,
+    "react/jsx-handler-names": 2,
+    "react/jsx-indent": 0,
+    "react/jsx-indent-props": 2,
+    "react/jsx-key": 2,
+    "react/jsx-max-depth": 2,
+    "react/jsx-max-props-per-line": 2,
+    "react/jsx-no-bind": 2,
+    "react/jsx-no-comment-textnodes": 2,
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-literals": 2,
+    "react/jsx-no-undef": 2,
+    "react/jsx-no-target-blank": 2,
+    "react/jsx-one-expression-per-line": 2,
+    "react/jsx-curly-brace-presence": 2,
+    "react/jsx-fragments": 2,
+    "react/jsx-pascal-case": 2,
+    "react/jsx-props-no-multi-spaces": 2,
+    "react/jsx-props-no-spreading": 2,
+    "react/jsx-sort-default-props": 2,
+    "react/jsx-sort-props": 2,
+    "react/jsx-tag-spacing": 2,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/jsx-wrap-multilines": 2
   },
   "settings": {
     "react": {
-      "createClass": "createReactClass", // Regex for Component Factory to use, default to "createReactClass"
-      "pragma": "React", // Pragma to use, default to "React"
-      "version": "detect", // React version. "detect" automatically picks the version you have installed.
-      "flowVersion": "0.53" // Flow version
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "0.53"
     }
   }
 }

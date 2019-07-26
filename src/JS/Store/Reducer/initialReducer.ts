@@ -4,6 +4,7 @@ import * as _ from "lodash";
 /* Component Imports */
 import * as initialConstants from "../Constants/initialConstants";
 import { reducer as researchReducer } from "./researchReducer";
+import { reducer as saveReducer } from "./saveReducer";
 import { round, refineResource, buyBuilding, tick } from "../../Utils/helpers";
 
 /* TypeScript Imports */
@@ -27,8 +28,8 @@ export function reducer(state: any, action: Action, root: any) {
               itemOne: {
                 ...state.resources.itemOne,
                 amount: round(
-                  root.parent.gameData.mouse.clickMultiplier *
-                    root.parent.initialState.initialValues.clicking +
+                  state.mouse.click.clickMultiplier *
+                    root.parent.initialValues.clicking +
                     state.resources.itemOne.amount,
                   3
                 )
@@ -69,6 +70,11 @@ export function reducer(state: any, action: Action, root: any) {
           return state;
         }
       }
+    }
+    case "tick": {
+      const newState = _.cloneDeep(state);
+      const game = saveReducer(newState, action, root);
+      return { ...game };
     }
     default: {
       return state;

@@ -1,21 +1,21 @@
 // `CheckerPlugin` is optional. Use it if you want async error reporting.
 // We need this plugin to detect a `--watch` mode. It may be removed later
 // after https://github.com/webpack/webpack/issues/3460 will be resolved.
-const { CheckerPlugin } = require("awesome-typescript-loader");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CheckerPlugin } = require("awesome-typescript-loader")
+const HtmlWebPackPlugin = require("html-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const isDevelopment = process.env.NODE_ENV !== "production"
 
 module.exports = {
-  entry: ["babel-polyfill", "./src/index.js"],
+  entry: ["babel-polyfill", "./src/index.jsx"],
   module: {
     rules: [
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: { loader: "babel-loader" }
+        use: { loader: "babel-loader" },
       },
       { test: /\.html$/, use: [{ loader: "html-loader" }] },
       {
@@ -28,11 +28,11 @@ module.exports = {
               modules: true,
               localIdentName: "[name]__[local]___[hash:base64:5]",
               camelCase: true,
-              sourceMap: isDevelopment
-            }
+              sourceMap: isDevelopment,
+            },
           },
-          { loader: "sass-loader", options: { sourceMap: isDevelopment } }
-        ]
+          { loader: "sass-loader", options: { sourceMap: isDevelopment } },
+        ],
       },
       {
         test: /\.s(a|c)ss$/,
@@ -40,19 +40,19 @@ module.exports = {
         loader: [
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
-          { loader: "sass-loader", options: { sourceMap: isDevelopment } }
-        ]
+          { loader: "sass-loader", options: { sourceMap: isDevelopment } },
+        ],
       },
       {
         test: /(\.css$)/,
         include: /node_modules/,
-        loaders: ["style-loader", "css-loader"]
+        loaders: ["style-loader", "css-loader"],
       },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: "url-loader" }
-    ]
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: "url-loader" },
+    ],
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".scss", ".css"]
+    extensions: [".ts", ".tsx", ".js", ".scss", ".css"],
   },
   // Source maps support ('inline-source-map' also works)
   devtool: "source-map",
@@ -60,11 +60,11 @@ module.exports = {
     new CheckerPlugin(),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
-      filename: "./index.html"
+      filename: "./index.html",
     }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? "[name].css" : "[name].[hash].css",
-      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css"
-    })
-  ]
-};
+      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
+    }),
+  ],
+}

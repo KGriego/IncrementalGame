@@ -1,1 +1,1 @@
-export { ClickerButton } from "./ClickerButton";
+export { ClickerButton } from "./ClickerButton"

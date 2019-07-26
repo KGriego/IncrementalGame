@@ -1,1 +1,1 @@
-export { default } from "./StartingBuild";
+export { default } from "./StartingBuild"

@@ -4,7 +4,10 @@ import * as NotificationSystem from "react-notification-system";
 import { Grid } from "semantic-ui-react";
 
 /* Redux Imports */
+import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
+import * as actions from "../Store/Actions/saveActions";
+import * as initialActions from "../Store/Actions/initialActions";
 
 /* Component Imports */
 import Home from "../Components/Container/Home";
@@ -14,22 +17,29 @@ import "semantic-ui-css/semantic.min.css";
 
 interface Props {
   notifications: NotificationType;
+  actions: {
+    saveGame: any;
+    startTicking: any;
+  };
 }
-
-interface State {}
 
 interface NotificationType {
   notification: any;
 }
 
-class App extends React.Component<Props, State> {
+class App extends React.Component<Props> {
   private notificationSystem: any;
 
   static defaultProps: Props = {
+    actions: { saveGame: () => {}, startTicking: () => {} },
     notifications: { notification: null }
   };
+  state = {};
 
-  state: Readonly<State> = {};
+  componentDidMount() {
+    this.saveGame();
+    this.props.actions.startTicking();
+  }
 
   componentWillReceiveProps(nextProps: any) {
     if (
@@ -42,6 +52,13 @@ class App extends React.Component<Props, State> {
       );
     }
   }
+
+  saveGame = () =>
+    setInterval(() => {
+      console.log("saving game");
+      this.props.actions.saveGame();
+    }, 10000);
+
   render() {
     return (
       <Grid centered>
@@ -63,4 +80,11 @@ const mapStateToProps = ({
   notifications: NotificationType;
 }) => ({ notifications });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  actions: bindActionCreators({ ...actions, ...initialActions }, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

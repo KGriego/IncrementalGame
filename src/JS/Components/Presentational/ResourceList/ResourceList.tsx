@@ -21,9 +21,7 @@ interface Props {
 
 export function ResourceList(props: Props) {
   const {
-    parent: {
-      initialState: { initialValues }
-    },
+    parent: { initialValues },
     gameData: { resources, buildings, mouse }
   } = props;
   return (
@@ -33,7 +31,7 @@ export function ResourceList(props: Props) {
         <Item>
           <Item.Content>
             <Item.Description>
-              Clicking: {initialValues.clicking * mouse.clickMultiplier}
+              Clicking: {initialValues.clicking * mouse.click.clickMultiplier}
             </Item.Description>
           </Item.Content>
         </Item>

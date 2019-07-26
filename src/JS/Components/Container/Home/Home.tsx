@@ -9,21 +9,21 @@ import { connect } from "react-redux";
 import StartingBuild from "../StartingBuild";
 import Research from "../Research";
 import { ResourceList } from "../../Presentational/ResourceList/ResourceList";
+import { GameData } from "../../../TypeScriptTypes/types";
 
 const Tabs = [
-  { menuItem: "Research", render: () => <Research /> },
-  { menuItem: "Home", render: () => <StartingBuild /> }
+  { menuItem: "Home", render: () => <StartingBuild /> },
+  { menuItem: "Research", render: () => <Research /> }
 ];
 
 interface Props {
   parent: object;
-  gameData: object;
+  gameData: GameData;
 }
 
 class Home extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    console.log(props);
     this.state = {};
   }
   render() {
@@ -46,7 +46,7 @@ const mapStateToProps = ({
   gameData
 }: {
   parent: object;
-  gameData: object;
+  gameData: GameData;
 }) => ({
   gameData,
   parent

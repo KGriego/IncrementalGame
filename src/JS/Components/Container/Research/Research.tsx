@@ -12,27 +12,17 @@ import * as actions from "../../../Store/Actions/researchActions";
 import { ResearchItem } from "../../Presentational/ResearchItem";
 
 /* TypeScript Imports */
-import { GameData } from "../../../TypeScriptTypes/types";
-
-interface ResearchActions {
-  researchItem({
-    research,
-    idx
-  }: {
-    research: string;
-    idx: number;
-  }): () => object;
-}
-
-interface Cost {
-  resource: string;
-  amount: number | string;
-}
+import {
+  GameData,
+  Researches,
+  ResearchItems,
+  Costs
+} from "../../../TypeScriptTypes/types";
 
 interface Props {
-  research: any;
-  actions: ResearchActions | any;
-  itemOneState: GameData | any;
+  research: Researches;
+  actions: any;
+  itemOneState: GameData;
 }
 
 class Research extends React.Component<Props> {
@@ -41,23 +31,15 @@ class Research extends React.Component<Props> {
     this.state = {};
   }
 
-  researchItem = (research: string, idx: number) => {
+  researchItem = (research: string, idx: number) =>
     this.props.actions.researchItem({ research, idx });
-  };
 
-  isResearchDisabled = (cost: Array<Cost>) => {
+  isResearchDisabled = (cost: Array<Costs>) => {
     const { resources } = this.props.itemOneState;
-    let isDisabled;
-    cost.map(({ resource, amount }) => {
-      if (resource !== undefined) {
-        return amount && amount > resources[resource].amount
-          ? (isDisabled = true)
-          : (isDisabled = false);
-      } else {
-        return true;
-      }
-    });
-    return isDisabled;
+    const result = cost.map(
+      cost => cost.amount > resources[cost.resource].amount
+    );
+    return _.includes(result, true);
   };
 
   render() {
@@ -68,20 +50,26 @@ class Research extends React.Component<Props> {
         <Grid.Row>
           <Grid.Column computer={"14"} tablet={"14"}>
             {researchItems.map(researchItem =>
-              research[researchItem].map((research: any, idx: number) => {
-                const value = _.some(research.unlocked, { value: true });
-                return (
-                  value &&
-                  !research.bought && (
-                    <ResearchItem
-                      key={`${research.title}-${idx}`}
-                      {...research}
-                      disabled={this.isResearchDisabled(research.costs)}
-                      clickButtonFunc={() => this.researchItem("clicking", idx)}
-                    />
-                  )
-                );
-              })
+              research[researchItem].map(
+                (researchCat: ResearchItems, idx: number) => {
+                  const value = !_.some(researchCat.unlocked, { value: false });
+                  const isDiabled =
+                    value && this.isResearchDisabled(researchCat.costs);
+                  return (
+                    value &&
+                    !researchCat.bought && (
+                      <ResearchItem
+                        key={`${researchCat.title}-${idx}`}
+                        {...researchCat}
+                        disabled={isDiabled}
+                        clickButtonFunc={() =>
+                          this.researchItem(researchItem, idx)
+                        }
+                      />
+                    )
+                  );
+                }
+              )
             )}
           </Grid.Column>
         </Grid.Row>

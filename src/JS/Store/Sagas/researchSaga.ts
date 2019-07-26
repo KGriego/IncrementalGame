@@ -1,5 +1,5 @@
 /* Library Imports */
-import { all, fork, takeLatest, put, take, select } from "redux-saga/effects";
+import { all, fork, takeLatest, put, take } from "redux-saga/effects";
 /* Redux Imports */
 import * as researchConstants from "../Constants/researchConstants";
 import * as notifications from "../Module/Notifications";

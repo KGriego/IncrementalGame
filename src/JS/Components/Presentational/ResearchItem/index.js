@@ -1,1 +1,1 @@
-export { ResearchItem } from "./ResearchItem";
+export { ResearchItem } from "./ResearchItem"
